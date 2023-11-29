@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FlipMenu } from "./FlipMenu";
 import { ProbabilitiesList } from "./ProbabilitiesList";
 import { Spinner } from "./Spinner";
+import { Tutorial } from "./Tutorial";
 import { WedgeList } from "./WedgeList";
 
 export function SpinnerData() {
@@ -41,6 +42,9 @@ export function SpinnerData() {
       optionsCopy[oldLabel].instances = oldInstances.filter((i) => i != index);
       if (optionsCopy[oldLabel].instances.length == 0) {
         delete optionsCopy[oldLabel];
+        let probsCopy = { ...probabilities };
+        delete probsCopy[oldLabel];
+        setProbabilities(probsCopy);
       }
     }
     if (optionsCopy[newLabel]) {
@@ -121,21 +125,31 @@ export function SpinnerData() {
   };
 
   const selectWithWeights = () => {
-    let roll = Math.ceil(Math.random() * 100);
+    let roll;
 
-    let count = 0;
-    for (let key of Object.keys(probabilities)) {
-      count += probabilities[key];
-      if (roll <= count) {
-        let indeces = options[key].instances;
-        let index = Math.floor(Math.random() * indeces.length);
-        return wedges[indeces[index]];
+    if (Object.keys(probabilities).length == 0) {
+      roll = Math.floor(Math.random() * wedges.length);
+      return wedges[roll];
+    } else {
+      roll = Math.ceil(Math.random() * 100);
+      let count = 0;
+      for (let key of Object.keys(probabilities)) {
+        count += probabilities[key];
+        if (roll <= count) {
+          let indeces = options[key].instances;
+          let index = Math.floor(Math.random() * indeces.length);
+          return wedges[indeces[index]];
+        }
       }
     }
   };
 
   const handleResults = (value) => {
-    setResults([...results, value]);
+    if (value) {
+      setResults([...results, value]);
+    } else {
+      setResults([]);
+    }
   };
 
   return (
@@ -156,6 +170,7 @@ export function SpinnerData() {
         probabilities={probabilities}
         handleProbabilities={handleProbabilities}
         results={results}
+        handleResults={handleResults}
       />
       <Spinner
         wedges={wedges}

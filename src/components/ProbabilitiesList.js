@@ -23,6 +23,10 @@ export function ProbabilitiesList({
     handleProbabilities(probs);
   };
 
+  const setToZero = () => {
+    handleProbabilities({});
+  };
+
   const removeLeadingZero = (value) => {
     if (!value) {
       return 0;
@@ -51,12 +55,12 @@ export function ProbabilitiesList({
               onChange={(e) => handleChange(e)}
             />
             <p>%</p>
-            <button className="iconButton" id="unlocked">
+            {/* <button className="iconButton" id="unlocked">
               <FaUnlock
                 style={{ margin: "auto", marginRight: "0px" }}
                 className="buttonIcon"
               />
-            </button>
+            </button> */}
           </label>
           <p style={{ display: "inline" }} className="wheelProb">
             {options[key].probability}%
@@ -67,10 +71,18 @@ export function ProbabilitiesList({
   });
   return (
     <div className="fieldEditor" id="back">
+      <menu style={{ paddingLeft: "3%" }}>
+        <p style={{ width: "42%", textAlign: "left" }}>Label</p>
+        <p>Weighted</p>
+        <p>Wheel %</p>
+      </menu>
       <form>{probabilitiesMarkup}</form>
-      <div>
+      <div className="menuButtons">
         <button className="menuButton" onClick={setToStandard}>
           Set to Standard Weights
+        </button>
+        <button className="menuButton" onClick={setToZero}>
+          Zero All
         </button>
       </div>
     </div>

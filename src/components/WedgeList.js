@@ -2,7 +2,14 @@ import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { Results } from "./Results";
 
-export function WedgeList({ wedges, addWedge, handleChange, results }) {
+export function WedgeList({
+  wedges,
+  addWedge,
+  handleChange,
+  results,
+  handleResults,
+  handleTutorial,
+}) {
   const [menu, setMenu] = useState(0);
   const fields = wedges.map((wedge, index) => {
     return (
@@ -21,12 +28,19 @@ export function WedgeList({ wedges, addWedge, handleChange, results }) {
           name={"color"}
           onChange={(e) => handleChange(e, index)}
         />
-        <button className="iconButton" id="xOut">
+        <button className="iconButton" id="deleteWedge">
           <FaTimes />
         </button>
       </div>
     );
   });
+
+  const newWedge = () => {
+    if (wedges.length === 1) {
+      handleTutorial();
+    }
+    addWedge();
+  };
 
   const toggleMenu = (menuNum) => {
     setMenu(menuNum);
@@ -39,15 +53,17 @@ export function WedgeList({ wedges, addWedge, handleChange, results }) {
     menu == 0 ? (
       <>
         <form>{fields}</form>
-        <button
-          className="menuButton"
-          onClick={wedges.length < 100 ? addWedge : handleWedgesFull}
-        >
-          Add Wedge
-        </button>
+        <div className="menuButtons">
+          <button
+            className="menuButton"
+            onClick={wedges.length < 100 ? newWedge : handleWedgesFull}
+          >
+            Add Wedge
+          </button>
+        </div>
       </>
     ) : (
-      <Results results={results} />
+      <Results results={results} handleResults={handleResults} />
     );
   return (
     <div className="fieldEditor">

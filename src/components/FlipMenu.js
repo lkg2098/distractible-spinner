@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { FaStop } from "react-icons/fa";
 import { ProbabilitiesList } from "./ProbabilitiesList";
+import { Tutorial } from "./Tutorial";
 import { WedgeList } from "./WedgeList";
 
 export function FlipMenu({
@@ -13,8 +14,10 @@ export function FlipMenu({
   probabilities,
   handleProbabilities,
   results,
+  handleResults,
 }) {
   const [flip, setFlip] = useState(0);
+  const [tutorial, setTutorial] = useState(false);
 
   const toggleFlip = () => {
     if (flip == 2) {
@@ -41,26 +44,42 @@ export function FlipMenu({
         setToStandard();
       }
     }
+    handleTutorial();
     toggleFlip();
   };
-  return (
-    <div className="sidebar">
-      <div className="flipCard" flip={flip}>
-        <WedgeList
-          wedges={wedges}
-          addWedge={addWedge}
-          handleChange={handleChange}
-          results={results}
-        />
 
-        <ProbabilitiesList
-          options={options}
-          probabilities={probabilities}
-          handleProbabilities={handleProbabilities}
-          setToStandard={setToStandard}
-        />
-        <button id="secret" onClick={flipMenu}></button>
+  const handleTutorial = (close) => {
+    if (tutorial < 3) setTutorial(tutorial + 1);
+    if (close) setTutorial(close);
+  };
+
+  return (
+    <div>
+      <div className="sidebar">
+        <div className="flipCard" flip={flip}>
+          <WedgeList
+            wedges={wedges}
+            addWedge={addWedge}
+            handleChange={handleChange}
+            results={results}
+            handleTutorial={handleTutorial}
+            handleResults={handleResults}
+          />
+
+          <ProbabilitiesList
+            options={options}
+            probabilities={probabilities}
+            handleProbabilities={handleProbabilities}
+            setToStandard={setToStandard}
+          />
+          <button
+            id={tutorial === 1 ? "clickHere" : null}
+            className="secret"
+            onClick={flipMenu}
+          ></button>
+        </div>
       </div>
+      <Tutorial active={tutorial} handleActive={handleTutorial} />
     </div>
   );
 }
