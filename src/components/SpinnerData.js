@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FlipMenu } from "./FlipMenu";
 import { ProbabilitiesList } from "./ProbabilitiesList";
 import { Spinner } from "./Spinner";
 import { WedgeList } from "./WedgeList";
@@ -7,6 +8,7 @@ export function SpinnerData() {
   const [wedges, setWedges] = useState([]);
   const [options, setOptions] = useState({});
   const [probabilities, setProbabilities] = useState({});
+  const [results, setResults] = useState([]);
 
   const generateColor = () => {
     let letters = "0123456789ABCDEF";
@@ -71,10 +73,11 @@ export function SpinnerData() {
     const wedgeCopy = [...wedges];
     const optionsCopy = { ...options };
     const wedgeProb = Math.round(3600 / (wedges.length + 1)) / 10;
+    const total = Math.round(10 * wedgeProb * (wedges.length + 1)) / 10;
+    let remainder = Math.round(10 * (360 - total)) / 10;
     let startAngle;
 
     for (let i = 0; i < wedgeCopy.length; i++) {
-      wedgeCopy[i].size = wedgeProb;
       startAngle =
         i != 0
           ? Math.round(
@@ -82,8 +85,16 @@ export function SpinnerData() {
             ) / 100
           : 0;
       wedgeCopy[i].startAngle = startAngle;
+      if (remainder > 0) {
+        wedgeCopy[i].size = Math.round(10 * (wedgeProb + 0.1)) / 10;
+        remainder = Math.round(10 * remainder - 1) / 10;
+      } else if (remainder < 0) {
+        wedgeCopy[i].size = Math.round(10 * (wedgeProb - 0.1)) / 10;
+        remainder = Math.round(10 * remainder + 1) / 10;
+      } else {
+        wedgeCopy[i].size = wedgeProb;
+      }
     }
-    const remainingSpace = (360 - wedgeProb * wedges.length).toFixed(1);
     startAngle =
       wedgeCopy.length > 0
         ? Math.round(
@@ -96,7 +107,7 @@ export function SpinnerData() {
       label: "",
       color: randomColor,
       startAngle: startAngle,
-      size: wedgeProb != remainingSpace ? remainingSpace : wedgeProb,
+      size: wedgeProb,
     });
 
     if (optionsCopy[""]) {
@@ -108,7 +119,7 @@ export function SpinnerData() {
     setWedges(wedgeCopy);
     setOptions(optionsCopy);
   };
-  const [newRoll, setNewRoll] = useState(0);
+
   const selectWithWeights = () => {
     let roll = Math.ceil(Math.random() * 100);
 
@@ -116,7 +127,6 @@ export function SpinnerData() {
     for (let key of Object.keys(probabilities)) {
       count += probabilities[key];
       if (roll <= count) {
-        setNewRoll(roll + " " + count + " " + key);
         let indeces = options[key].instances;
         let index = Math.floor(Math.random() * indeces.length);
         return wedges[indeces[index]];
@@ -124,23 +134,33 @@ export function SpinnerData() {
     }
   };
 
+  const handleResults = (value) => {
+    setResults([...results, value]);
+  };
+
   return (
-    <div style={{ display: "flex", flexFlow: "row" }}>
-      <Spinner wedges={wedges} spin={selectWithWeights} />
-      <div style={{ display: "flex", flexFlow: "column" }}>
-        <WedgeList
-          wedges={wedges}
-          addWedge={addWedge}
-          handleChange={handleWedgeData}
-          handleProbabilities={getProbabilities}
-        />
-        {newRoll}
-        {JSON.stringify(probabilities)}
-      </div>
-      <ProbabilitiesList
+    <div
+      style={{
+        display: "flex",
+        flexFlow: "row",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
+      <FlipMenu
+        wedges={wedges}
+        addWedge={addWedge}
+        handleChange={handleWedgeData}
+        calcProbabilities={getProbabilities}
         options={options}
         probabilities={probabilities}
         handleProbabilities={handleProbabilities}
+        results={results}
+      />
+      <Spinner
+        wedges={wedges}
+        spin={selectWithWeights}
+        handleResults={handleResults}
       />
     </div>
   );

@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { keyframes, styled } from "styled-components";
-import { SpinSetter } from "./SpinSetter";
 import { Wedge } from "./Wedge";
 import { Wedges } from "./Wedges";
 
-export function Spinner({ wedges, spin }) {
+export function Spinner({ wedges, spin, handleResults }) {
   const [angle, setAngle] = useState(0);
   const [spinning, setSpinning] = useState(0);
   const [endAngle, setEndAngle] = useState(0);
-  const [targWedge, setTargWedge] = useState({});
+  const [target, setTarget] = useState("");
 
   const spinAnim = keyframes`from{
         transform: rotate(${angle}deg);
@@ -17,7 +16,7 @@ export function Spinner({ wedges, spin }) {
         transform: rotate(${endAngle}deg);
     }`;
 
-  const FadeInButton =
+  const SpinnerContainer =
     spinning === 1
       ? styled.div`
           animation: 5s ${spinAnim} ease-out;
@@ -25,19 +24,14 @@ export function Spinner({ wedges, spin }) {
         `
       : styled.div``;
 
-  const spinWheel = (targetAngle) => {
-    setEndAngle(targetAngle);
-    setSpinning(1);
-  };
-
-  const spinWheel2 = () => {
+  const spinWheel = () => {
     const targetWedge = spin();
-    setTargWedge(targetWedge);
     if (targetWedge) {
+      setTarget(targetWedge.label || "[Blank]");
       let targetAngle =
-        1082 +
+        1081 +
         targetWedge.startAngle +
-        Math.ceil(Math.random() * (targetWedge.size - 3));
+        Math.ceil(Math.random() * (targetWedge.size - 1));
       setEndAngle(-1 * targetAngle);
       setSpinning(1);
     }
@@ -45,6 +39,7 @@ export function Spinner({ wedges, spin }) {
   const endAnimation = () => {
     setAngle(endAngle % 360);
     setSpinning(0);
+    handleResults(target);
   };
 
   const backToCenter = () => {
@@ -63,16 +58,9 @@ export function Spinner({ wedges, spin }) {
       <></>
     );
   return (
-    <div
-      style={{
-        display: "flex",
-        flexFlow: "column",
-        alignItems: "center",
-        padding: "15px",
-      }}
-    >
+    <div className="spinnerContainer">
       <div className="pointer"></div>
-      <FadeInButton
+      <SpinnerContainer
         className="spinner"
         onAnimationEnd={endAnimation}
         style={{
@@ -80,16 +68,14 @@ export function Spinner({ wedges, spin }) {
         }}
       >
         <Wedges wedges={wedges} />
-      </FadeInButton>
+      </SpinnerContainer>
       <button
-        style={{ zIndex: "1" }}
-        onClick={spinWheel2}
+        className="spinButton"
+        onClick={spinWheel}
         disabled={spinning == 1}
       >
-        TRY IT
+        SPIN!
       </button>
-      <button onClick={backToCenter}>Recenter</button>
-      {/* <SpinSetter spinWheel={spinWheel} /> */}
     </div>
   );
 }

@@ -2,130 +2,306 @@
   text-align: center;
 }
 
-.testCircle {
-  height: 500px;
-  width: 500px;
-  background-color: blue;
+.innerSpinner {
+  height: 650px;
+  width: 650px;
   border-radius: 50%;
-}
-
-.wedgeText {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  line-height: 470px;
-  text-align: left;
-}
-.wedgeText > p {
-  padding-left: 20px;
-  font-size: 10pt;
+  overflow: hidden;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.xButton {
-  background: none;
-  border: none;
-  margin-left: 2px;
-  color: white;
-}
-
-input {
-  margin: 1px;
   font-size: 12pt;
-  padding: 3px 10px;
-  height: 100%;
-  border: none;
-  border-radius: 2px;
+  color: white;
 }
 
-.probField::-webkit-outer-spin-button,
-.probField::-webkit-inner-spin-button {
-  appearance: none;
+.sidebar {
+  margin-left: 0;
+  width: 30vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+}
+menu {
+  display: flex;
+  padding: 0;
+  margin-top: 0;
+}
+
+menu > li {
+  list-style-type: none;
+  width: 50%;
+}
+
+menu > li > button {
+  height: 5vh;
+  width: 100%;
+  border: none;
+  background-color: gray;
+  color: white;
+  font-weight: bold;
+}
+menu > li > button:disabled {
+  background-color: black;
+}
+.menuButton {
+  background-color: transparent;
+  position: absolute;
+  top: 85vh;
+  transform: translateX(-50%);
+  color: rgb(58, 157, 190);
+  border: 2px solid rgb(58, 157, 190);
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.flipCard {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  font-size: calc(3px + 1vw);
+  transform-style: preserve-3d;
+}
+
+.flipButtonContainer {
+  position: absolute;
+  bottom: 0;
+  left: 25.5vw;
+}
+
+#back {
+  transform: translateX(-50%) rotateY(180deg);
+}
+
+.flipCard[flip="1"] {
+  animation: 1s flipMenu ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.flipCard[flip="2"] {
+  animation: 1s flipBack ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flipMenu {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes flipBack {
+  from {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
 }
 
 .fieldEditor {
-  display: flex;
-  flex-flow: row;
-  width: 400px;
-  height: 80vh;
-  background-color: #007ea1;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.probField {
-  text-align: right;
-  width: 30px;
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  backface-visibility: hidden;
 }
 
 form {
-  width: 300px;
-  height: 80vh;
+  height: 75vh;
+  width: 100%;
+  position: absolute;
+  top: 7vh;
   display: flex;
   flex-flow: column;
   overflow: scroll;
+  align-items: center;
+  z-index: 10;
+}
+.wedgeField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.15em;
+}
+
+.resultBoxContainer {
+  border: 2px solid gray;
+  border-radius: 3px;
+  font-size: 1em;
+  width: 85%;
+  height: 75vh;
+  margin: auto;
+  margin-top: 5vh;
+  text-align: left;
+  overflow: scroll;
+}
+.resultBox {
+  width: 100%;
+  margin: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    #222 0 1.53em,
+    #333 1.53em 3.06em
+  );
+}
+
+.resultBox > ol {
+  margin: 0;
+}
+
+.resultBox > ol > li {
+  padding: 0.17em;
+  padding-left: 0.5em;
+  overflow-wrap: break-word;
+}
+
+.probLabel {
+  display: flex;
+  align-items: center;
+  width: 11em;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1em;
+}
+
+.probLabel > p {
+  margin: 0px;
+}
+
+.probabilityField {
+  margin: 0px;
+  width: 8em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.probabilityField > p {
+  margin: 0;
+}
+label > p {
+  margin: 0;
+}
+
+.probabilityField > label {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+}
+
+input {
+  font-size: 1em;
+  height: 1.4em;
+  border: none;
+  margin: 0.1em;
+  border-radius: 0.1em;
+}
+
+input[type="text"] {
+  padding-left: 0.4em;
 }
 
 input[type="color"] {
-  height: 25px;
+  height: 1.5em;
+  width: 2.5em;
 }
 
-.wheelProb {
-  font-size: 12pt;
-  margin-left: 10px;
+input[type="number"] {
+  text-align: right;
 }
 
-.xButton:hover {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+#secret {
+  position: relative;
+  color: #333;
+  background-color: rgb(7, 7, 7);
+  border: 1px solid white;
+  top: 92%;
+  width: 100%;
+  height: 8%;
+}
+
+#xOut {
+  color: white;
+}
+
+#xOut:hover {
   color: gray;
 }
 
-.buttonIcon {
-  position: relative;
-  height: 80%;
-  top: 10%;
+#unlocked {
+  color: rgb(75, 75, 75);
+  transition: transform 0.2s;
+}
+
+#unlocked:hover {
+  transform: scale(1.2);
+}
+
+.spinButton {
+  margin: auto;
+  width: 100px;
+  height: 40px;
+  background-color: rgb(58, 157, 190);
+  border: none;
+  font-weight: bold;
+  color: #282c34;
+  z-index: 1;
+}
+
+.spinButton:disabled {
+  background-color: rgb(33, 93, 113);
+}
+
+.spinnerContainer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 69vw;
+  padding: 2vh;
+  overflow: hidden;
 }
 .pointer {
   width: 10px;
   height: 20px;
   background-color: white;
 }
-
 .spinner {
-  height: 500px;
-  width: 500px;
+  height: 650px;
+  width: 650px;
   display: inline-block;
   border-radius: 50%;
-  overflow: hidden;
 }
 
 .wedges {
   display: inline-block;
   transform: rotate(90deg);
-  height: 500px;
-  width: 500px;
+  height: 650px;
+  width: 650px;
 }
 
-.wedgeField {
-  display: flex;
-  flex-flow: row;
-  font-size: 12pt;
+.wedgeText {
+  width: 100%;
+  height: 100%;
   text-align: left;
-  line-height: 20px;
-  align-items: center;
-  padding: 7px;
-  height: 20px;
-}
-
-label > p {
-  display: inline-block;
+  padding-left: 10px;
 }

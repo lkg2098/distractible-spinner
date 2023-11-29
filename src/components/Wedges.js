@@ -12,15 +12,15 @@ export function Wedges({ wedges }) {
         style={{
           backgroundColor: wedges[0].color,
           borderRadius: "50%",
-          height: "500px",
-          width: "500px",
+          height: "600px",
+          width: "600px",
           transform: "rotate(-90deg)",
           textAlign: "center",
         }}
       >
         <p
           style={{
-            lineHeight: "500px",
+            lineHeight: "600px",
             margin: "auto",
             color: "white",
           }}
