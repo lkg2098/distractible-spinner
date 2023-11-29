@@ -49,7 +49,7 @@ export function Wedge({ wedgeData }) {
     >
       <div
         style={{
-          fontSize: 8 + Math.pow(wedgeData.size, 1 / 2) + "px",
+          fontSize: 8 + Math.sqrt(wedgeData.size) + "px",
           lineHeight: "calc(620px + " + 360 / wedgeData.size + "%)",
           transform: "rotate(" + Math.round(50 * wedgeData.size) / 100 + "deg)",
         }}
