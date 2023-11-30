@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { keyframes, styled } from "styled-components";
-import { Wedge } from "./Wedge";
 import { Wedges } from "./Wedges";
 
 export function Spinner({ wedges, spin, handleResults }) {
@@ -42,21 +41,6 @@ export function Spinner({ wedges, spin, handleResults }) {
     handleResults(target);
   };
 
-  const backToCenter = () => {
-    setEndAngle(0);
-    setSpinning(1);
-  };
-
-  const testWedge =
-    wedges.length > 0 ? (
-      <Wedge
-        color={wedges[0].color}
-        size={wedges[0].size}
-        startAngle={wedges[0].startAngle}
-      />
-    ) : (
-      <></>
-    );
   return (
     <div className="spinnerContainer">
       <div className="pointer"></div>
@@ -72,7 +56,7 @@ export function Spinner({ wedges, spin, handleResults }) {
       <button
         className="spinButton"
         onClick={spinWheel}
-        disabled={spinning == 1}
+        disabled={spinning === 1}
       >
         SPIN!
       </button>

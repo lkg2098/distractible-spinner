@@ -50,7 +50,7 @@ export function WedgeList({
   };
 
   const menuMarkup =
-    menu == 0 ? (
+    menu === 0 ? (
       <>
         <form>{fields}</form>
         <div className="menuButtons">
@@ -69,12 +69,12 @@ export function WedgeList({
     <div className="fieldEditor">
       <menu>
         <li>
-          <button disabled={menu == 0} onClick={() => toggleMenu(0)}>
+          <button disabled={menu === 0} onClick={() => toggleMenu(0)}>
             Options
           </button>
         </li>
         <li>
-          <button disabled={menu == 1} onClick={() => toggleMenu(1)}>
+          <button disabled={menu === 1} onClick={() => toggleMenu(1)}>
             Results
           </button>
         </li>

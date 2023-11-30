@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { Wedge } from "./Wedge";
 
 export function Wedges({ wedges }) {
   const wedgesMarkup =
-    wedges.length != 1 ? (
+    wedges.length !== 1 ? (
       wedges.map((wedge) => {
         return <Wedge wedgeData={wedge} />;
       })

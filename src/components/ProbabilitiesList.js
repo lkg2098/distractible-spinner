@@ -1,20 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
-import { FaLock, FaUnlock } from "react-icons/fa";
 export function ProbabilitiesList({
   options,
   probabilities,
   handleProbabilities,
   setToStandard,
 }) {
-  const remainder = useMemo(() => {}, [probabilities]);
-
   const handleChange = (e) => {
     let key = e.target.name;
     let value = parseInt(e.target.value) || 0;
 
     let probs = { ...probabilities };
 
-    if (value && value != 0) {
+    if (value && value !== 0) {
       probs[key] = value;
     } else if (probs[key]) {
       delete probs[key];
@@ -40,7 +36,7 @@ export function ProbabilitiesList({
       <div className="wedgeField">
         <div className="probLabel">
           <p style={{ width: "9em", overflowWrap: "break-word" }}>
-            {key != "" ? '"' + key + '"' : "[Blank]"}{" "}
+            {key !== "" ? '"' + key + '"' : "[Blank]"}{" "}
           </p>
           <p>:</p>
         </div>

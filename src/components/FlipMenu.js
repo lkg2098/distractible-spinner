@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { IconContext } from "react-icons";
-import { FaStop } from "react-icons/fa";
+import { useState } from "react";
 import { ProbabilitiesList } from "./ProbabilitiesList";
 import { Tutorial } from "./Tutorial";
 import { WedgeList } from "./WedgeList";
@@ -20,7 +18,7 @@ export function FlipMenu({
   const [tutorial, setTutorial] = useState(false);
 
   const toggleFlip = () => {
-    if (flip == 2) {
+    if (flip === 2) {
       setFlip(1);
     } else {
       setFlip(flip + 1);
@@ -38,9 +36,9 @@ export function FlipMenu({
   };
 
   const flipMenu = () => {
-    if (flip != 1) {
+    if (flip !== 1) {
       calcProbabilities();
-      if (flip == 0) {
+      if (flip === 0) {
         setToStandard();
       }
     }

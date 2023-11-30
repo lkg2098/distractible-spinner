@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { FlipMenu } from "./FlipMenu";
-import { ProbabilitiesList } from "./ProbabilitiesList";
 import { Spinner } from "./Spinner";
-import { Tutorial } from "./Tutorial";
-import { WedgeList } from "./WedgeList";
 
 export function SpinnerData() {
   const [wedges, setWedges] = useState([]);
@@ -25,7 +22,7 @@ export function SpinnerData() {
   const handleWedgeData = (event, index) => {
     let key = event.target.name;
     let value = event.target.value;
-    if (event.target.name == "label") {
+    if (event.target.name === "label") {
       handleOptionData(event.target.value, index);
     }
     let wedgeCopy = [...wedges];
@@ -39,8 +36,8 @@ export function SpinnerData() {
 
     if (optionsCopy[oldLabel]) {
       let oldInstances = optionsCopy[oldLabel].instances;
-      optionsCopy[oldLabel].instances = oldInstances.filter((i) => i != index);
-      if (optionsCopy[oldLabel].instances.length == 0) {
+      optionsCopy[oldLabel].instances = oldInstances.filter((i) => i !== index);
+      if (optionsCopy[oldLabel].instances.length === 0) {
         delete optionsCopy[oldLabel];
         let probsCopy = { ...probabilities };
         delete probsCopy[oldLabel];
@@ -83,7 +80,7 @@ export function SpinnerData() {
 
     for (let i = 0; i < wedgeCopy.length; i++) {
       startAngle =
-        i != 0
+        i !== 0
           ? Math.round(
               100 * (wedgeCopy[i - 1].startAngle + wedgeCopy[i - 1].size)
             ) / 100
@@ -127,7 +124,7 @@ export function SpinnerData() {
   const selectWithWeights = () => {
     let roll;
 
-    if (Object.keys(probabilities).length == 0) {
+    if (Object.keys(probabilities).length === 0) {
       roll = Math.floor(Math.random() * wedges.length);
       return wedges[roll];
     } else {
