@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Wedges } from "./Wedges";
-import { FaLocationPin, FaRotate } from "react-icons/fa6";
-import { IconContext } from "react-icons";
 
 export function Spinner({ wedges, spin, handleResults }) {
   const [spinning, setSpinning] = useState(0);
