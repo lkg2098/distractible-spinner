@@ -10,7 +10,6 @@ export function SpinnerData() {
     JSON.parse(window.localStorage.getItem("probabilities")) || {}
   );
   const [results, setResults] = useState([]);
-
   const generateColor = () => {
     let letters = "0123456789ABCDEF";
 

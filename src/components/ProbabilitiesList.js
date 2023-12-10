@@ -13,11 +13,7 @@ export function ProbabilitiesList({
   );
 
   useEffect(() => {
-    if (
-      flipped === 1 &&
-      Object.keys(JSON.parse(window.localStorage.getItem("weights"))).length ===
-        0
-    ) {
+    if (flipped === 1 && !JSON.parse(window.localStorage.getItem("weights"))) {
       let newFields = {};
       for (let key in options) {
         newFields[key] = options[key].length;
