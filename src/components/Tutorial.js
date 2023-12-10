@@ -4,7 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 
 export function Tutorial({ active, handleActive }) {
   const tutorialText = [
-    "Click here to set weighted probabilities.",
+    "Click here to rig the odds!",
     "Now click again to return to the regular menu.",
     "Great job! Happy pranking!",
   ];

@@ -5,12 +5,18 @@ import { Results } from "./Results";
 export function WedgeList({
   wedges,
   addWedge,
+  handleDelete,
   handleChange,
   results,
   handleResults,
   handleTutorial,
 }) {
   const [menu, setMenu] = useState(0);
+
+  const deleteWedge = (e, ind) => {
+    e.preventDefault();
+    handleDelete(ind);
+  };
   const fields = wedges.map((wedge, index) => {
     return (
       <div className="wedgeField">
@@ -20,15 +26,32 @@ export function WedgeList({
           size={30}
           maxLength={20}
           name={"label"}
+          placeholder="Type option here..."
           onChange={(e) => handleChange(e, index)}
         />
-        <input
-          type={"color"}
-          value={wedge.color}
-          name={"color"}
-          onChange={(e) => handleChange(e, index)}
-        />
-        <button className="iconButton" id="deleteWedge">
+        <div
+          style={{
+            backgroundColor: wedge.color,
+            border: "3px solid white",
+            borderRadius: "3px",
+            height: "1.2em",
+            width: "2em",
+            marginLeft: "0.5em",
+            position: "relative",
+          }}
+        >
+          <input
+            type={"color"}
+            value={wedge.color}
+            name={"color"}
+            onChange={(e) => handleChange(e, index)}
+          />
+        </div>
+        <button
+          className="iconButton"
+          id="deleteWedge"
+          onClick={(e) => deleteWedge(e, index)}
+        >
           <FaTimes />
         </button>
       </div>
@@ -36,7 +59,7 @@ export function WedgeList({
   });
 
   const newWedge = () => {
-    if (wedges.length === 1) {
+    if (wedges.length === 2) {
       handleTutorial();
     }
     addWedge();
@@ -52,7 +75,7 @@ export function WedgeList({
   const menuMarkup =
     menu === 0 ? (
       <>
-        <form>{fields}</form>
+        <form className="resultBoxContainer">{fields}</form>
         <div className="menuButtons">
           <button
             className="menuButton"

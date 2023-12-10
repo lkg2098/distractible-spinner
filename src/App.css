@@ -11,7 +11,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-image: linear-gradient(to bottom right, darkblue, indigo);
   height: 100vh;
   display: flex;
   flex-direction: row;
@@ -22,9 +22,12 @@
 }
 
 .sidebar {
-  margin-left: 0;
-  width: 30vw;
-  height: 100vh;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 3vw;
+  width: 35vw;
+  height: 95vh;
   display: flex;
   flex-flow: column;
 }
@@ -52,37 +55,60 @@ menu > li > button {
   height: 100%;
   width: 100%;
   border: none;
-  background-color: gray;
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
   font-weight: bold;
 }
-menu > li > button:disabled {
-  background-color: black;
+
+menu > li:nth-child(1) > button {
+  border-top-left-radius: 10px;
 }
 
+menu > li:nth-child(2) > button {
+  border-top-right-radius: 10px;
+}
+
+menu > li > button:disabled {
+  background-color: transparent;
+}
+
+#probabilityHeader {
+  position: relative;
+  margin-right: 0;
+  width: 55%;
+  left: 41%;
+}
+
+#probabilityHeader > p {
+  text-align: right;
+}
 .menuButtons {
   position: absolute;
-  top: 85vh;
+  top: 83vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
   display: flex;
-  width: 29.5vw;
-
   justify-content: space-evenly;
 }
 .menuButton {
   background-color: transparent;
-
-  color: rgb(58, 157, 190);
-  border: 2px solid rgb(58, 157, 190);
-  padding: 5px 10px;
+  color: plum;
+  border: 2px solid plum;
+  font-size: 11pt;
+  padding: 0.5em 1em;
   border-radius: 3px;
 }
 
 .flipCard {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
   width: 100%;
+  position: relative;
   font-size: calc(3px + 1vw);
   transform-style: preserve-3d;
+  border-radius: 10px;
+  transition: transform 1s;
 }
 
 .flipButtonContainer {
@@ -96,13 +122,18 @@ menu > li > button:disabled {
 }
 
 .flipCard[flip="1"] {
-  animation: 1s flipMenu ease-in-out;
-  animation-fill-mode: forwards;
+  transform: rotateY(180deg);
 }
 
 .flipCard[flip="2"] {
-  animation: 1s flipBack ease-in-out;
-  animation-fill-mode: forwards;
+  transform: rotateY(0deg);
+}
+
+.flipCard[flip="1"] > button {
+  background-color: black;
+  color: white;
+  opacity: 100;
+  backface-visibility: hidden;
 }
 
 @keyframes flipMenu {
@@ -132,56 +163,60 @@ menu > li > button:disabled {
 }
 
 form {
-  height: 75vh;
-  width: 90%;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 8vh;
-  display: flex;
-  flex-flow: column;
-  overflow: scroll;
-  align-items: center;
-  z-index: 10;
-  border: 2px solid gray;
-  border-radius: 3px;
 }
+
 .wedgeField {
   display: flex;
+  width: 90%;
   align-items: center;
   justify-content: space-between;
   padding: 0.15em;
 }
-
+form.resultBoxContainer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding-top: 3%;
+}
 .resultBoxContainer {
+  height: 72vh;
+  width: 90%;
+  margin: auto;
+  overflow: scroll;
+  text-align: left;
+  z-index: 10;
   border: 2px solid gray;
   border-radius: 3px;
-  font-size: 1em;
-  width: 90%;
-  height: 75vh;
-  margin: auto;
-  margin-top: 2vh;
-  text-align: left;
-  overflow: scroll;
 }
-.resultBox {
+
+/* .resultBox {
   width: 100%;
   margin: 0;
   background: repeating-linear-gradient(
     to bottom,
-    #222 0 1.53em,
-    #333 1.53em 3.06em
+    rgba(0, 0, 0, 0.5) 0 1.6em,
+    rgba(0, 0, 0, 0.3) 1.6em 3.2em
   );
-}
+} */
 
-.resultBox > ol {
+ol {
+  padding-left: 0;
   margin: 0;
 }
 
-.resultBox > ol > li {
-  padding: 0.17em;
-  padding-left: 0.5em;
+ol > li {
+  padding: 0.3em;
+  padding-left: 0.6em;
   overflow-wrap: break-word;
+  list-style-position: inside;
+}
+
+ol > li:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+ol > li:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .probLabel {
@@ -200,7 +235,6 @@ form {
 
 .probabilityField {
   margin: 0px;
-  width: 8em;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -208,6 +242,8 @@ form {
 
 .probabilityField > p {
   margin: 0;
+  width: 4.7em;
+  text-align: right;
 }
 label > p {
   margin: 0;
@@ -225,25 +261,39 @@ input {
   border: none;
   margin: 0.1em;
   border-radius: 0.1em;
+  color: white;
 }
 
+.wedgeField > input[type="text"] {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid white;
+  width: 80%;
+  border-radius: 1em;
+}
 input[type="text"] {
-  padding-left: 0.4em;
+  padding-left: 0.8em;
 }
 
 input[type="color"] {
-  height: 1.5em;
-  width: 2.5em;
+  width: 110%;
+  height: 110%;
+  position: absolute;
+  left: -10%;
+  top: -10%;
+  opacity: 0;
 }
 
 input[type="number"] {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid white;
+  border-radius: 0.5em;
   text-align: right;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
+/* input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   appearance: none;
-}
+} */
 
 .iconButton {
   background: none;
@@ -254,12 +304,14 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .secret {
   position: relative;
-  color: #333;
-  background-color: rgb(7, 7, 7);
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0);
   border: none;
-  top: 92%;
+  top: 95%;
   width: 100%;
-  height: 8%;
+  height: 5%;
+  transform: rotateY(180deg);
+  transition: color 0.75s;
 }
 
 #clickHere {
@@ -284,38 +336,96 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .spinButton {
   margin: auto;
+  background-color: #444;
   width: 100px;
-  height: 40px;
-  background-color: rgb(58, 157, 190);
+  height: 110px;
   border: none;
   font-weight: bold;
-  color: #282c34;
-  z-index: 1;
+  clip-path: path(
+    "M 5, 65 A 20, 20 0, 0, 0 95, 65 Q 95,30 50, 10 Q 5,30 5,65 z"
+  );
 }
 
-.spinButton:disabled {
-  background-color: rgb(33, 93, 113);
+.spinButton > p {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -57%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
 }
 
-.spinnerContainer {
+.spinButton:disabled > p {
+  color: #666;
+  border-color: #666;
+}
+
+.buttonWrapper {
+  filter: drop-shadow(rgba(0, 0, 0, 0.4) 4px 8px 0.4em);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 10;
+}
+
+.spinnerSection {
   display: flex;
   flex-flow: column;
   align-items: center;
-  width: 69vw;
+  width: 65vw;
   padding: 2vh;
   overflow: hidden;
 }
+
+.spinnerContainer {
+  height: 700px;
+  width: 700px;
+  border-radius: 50%;
+  display: flex;
+  position: relative;
+  top: 50%;
+  left: -5%;
+  transform: translateY(-50%);
+  background-color: #333;
+}
+
 .pointer {
   width: 10px;
   height: 20px;
   background-color: white;
 }
 .spinner {
-  height: 650px;
-  width: 650px;
-  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+}
+
+.spinner[spinning="1"] {
+  transition: transform 5s;
+  transition-timing-function: ease-out;
+}
+
+.shadow {
+  width: 600px;
+  height: 600px;
   border-radius: 50%;
-  background-color: #333;
+  position: absolute;
+  background-color: #222;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  filter: drop-shadow(rgba(0, 0, 0, 0.5) 30px 30px 10px);
 }
 
 .wedges {
@@ -334,11 +444,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .bubble {
   position: absolute;
-  top: 81vh;
-  left: 24vw;
+  top: 79vh;
+  left: 35vw;
   padding: 0.75em 1em;
   width: 18em;
-
   background-color: white;
   color: black;
   border-radius: 5px;

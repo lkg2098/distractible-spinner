@@ -6,9 +6,7 @@ export function Results({ results, handleResults }) {
   return (
     <div>
       <div className="resultBoxContainer">
-        <div className="resultBox">
-          <ol>{resultsMarkup}</ol>
-        </div>
+        <ol>{resultsMarkup}</ol>
       </div>
       <div className="menuButtons">
         <button className="menuButton" onClick={clear}>

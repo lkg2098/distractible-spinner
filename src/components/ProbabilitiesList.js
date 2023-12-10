@@ -1,26 +1,82 @@
+import { useEffect, useMemo, useState } from "react";
+
 export function ProbabilitiesList({
   options,
   probabilities,
+  calculateProbability,
   handleProbabilities,
   setToStandard,
+  flipped,
 }) {
+  const [fields, setFields] = useState(
+    JSON.parse(window.localStorage.getItem("weights")) || {}
+  );
+
+  useEffect(() => {
+    if (
+      flipped === 1 &&
+      Object.keys(JSON.parse(window.localStorage.getItem("weights"))).length ===
+        0
+    ) {
+      let newFields = {};
+      for (let key in options) {
+        newFields[key] = options[key].length;
+      }
+      setFields(newFields);
+    }
+  }, [flipped, options]);
+
+  const total = useMemo(() => {
+    let sum = 0;
+    for (let key in fields) {
+      sum += fields[key];
+    }
+    return sum;
+  }, [fields]);
+
+  useEffect(() => {
+    window.localStorage.setItem("weights", JSON.stringify(fields));
+    let newProbs = {};
+    for (let key in fields) {
+      if (fields[key] !== 0) {
+        newProbs[key] = Math.round((100 * fields[key]) / total);
+      }
+    }
+    handleProbabilities(newProbs);
+  }, [fields, total, handleProbabilities]);
+
   const handleChange = (e) => {
     let key = e.target.name;
     let value = parseInt(e.target.value) || 0;
 
-    let probs = { ...probabilities };
+    let fieldsCopy = { ...fields };
 
     if (value && value !== 0) {
-      probs[key] = value;
-    } else if (probs[key]) {
-      delete probs[key];
+      fieldsCopy[key] = value;
+    } else if (fieldsCopy[key]) {
+      delete fieldsCopy[key];
     }
 
-    handleProbabilities(probs);
+    setFields(fieldsCopy);
+  };
+
+  const handleFocusOut = (e) => {
+    let value = e.target.value;
+    let key = e.target.name;
+
+    let fieldsCopy = { ...fields };
+
+    if (value > 100) {
+      fieldsCopy[key] = 100;
+      setFields(fieldsCopy);
+    } else if (value < 0) {
+      delete fieldsCopy[key];
+      setFields(fieldsCopy);
+    }
   };
 
   const setToZero = () => {
-    handleProbabilities({});
+    setFields({});
   };
 
   const removeLeadingZero = (value) => {
@@ -36,30 +92,24 @@ export function ProbabilitiesList({
       <div className="wedgeField">
         <div className="probLabel">
           <p style={{ width: "9em", overflowWrap: "break-word" }}>
-            {key !== "" ? '"' + key + '"' : "[Blank]"}{" "}
+            {key !== "" ? '"' + key + '"' : "[Empty]"}{" "}
           </p>
-          <p>:</p>
         </div>
         <div className="probabilityField">
           <label>
             <input
               type="number"
               name={key}
-              value={removeLeadingZero(probabilities[key])}
+              value={removeLeadingZero(fields[key])}
               min={0}
               max={100}
               onChange={(e) => handleChange(e)}
+              onBlur={(e) => handleFocusOut(e)}
             />
-            <p>%</p>
-            {/* <button className="iconButton" id="unlocked">
-              <FaUnlock
-                style={{ margin: "auto", marginRight: "0px" }}
-                className="buttonIcon"
-              />
-            </button> */}
           </label>
+          <p>{probabilities[key] || 0}%</p>
           <p style={{ display: "inline" }} className="wheelProb">
-            {options[key].probability}%
+            {calculateProbability(options[key])}%
           </p>
         </div>
       </div>
@@ -67,15 +117,15 @@ export function ProbabilitiesList({
   });
   return (
     <div className="fieldEditor" id="back">
-      <menu style={{ paddingLeft: "3%" }}>
-        <p style={{ width: "42%", textAlign: "left" }}>Label</p>
-        <p>Weighted</p>
+      <menu id="probabilityHeader">
+        <p>Weights</p>
+        <p>Rigged %</p>
         <p>Wheel %</p>
       </menu>
-      <form>{probabilitiesMarkup}</form>
+      <form className="resultBoxContainer">{probabilitiesMarkup}</form>
       <div className="menuButtons">
         <button className="menuButton" onClick={setToStandard}>
-          Set to Standard Weights
+          Reset
         </button>
         <button className="menuButton" onClick={setToZero}>
           Zero All

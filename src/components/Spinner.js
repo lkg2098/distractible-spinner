@@ -1,32 +1,17 @@
 import { useState } from "react";
-import { keyframes, styled } from "styled-components";
 import { Wedges } from "./Wedges";
+import { FaLocationPin, FaRotate } from "react-icons/fa6";
+import { IconContext } from "react-icons";
 
 export function Spinner({ wedges, spin, handleResults }) {
-  const [angle, setAngle] = useState(0);
   const [spinning, setSpinning] = useState(0);
   const [endAngle, setEndAngle] = useState(0);
   const [target, setTarget] = useState("");
 
-  const spinAnim = keyframes`from{
-        transform: rotate(${angle}deg);
-    }
-    to{
-        transform: rotate(${endAngle}deg);
-    }`;
-
-  const SpinnerContainer =
-    spinning === 1
-      ? styled.div`
-          animation: 5s ${spinAnim} ease-out;
-          animation-fill-mode: forwards;
-        `
-      : styled.div``;
-
   const spinWheel = () => {
     const targetWedge = spin();
     if (targetWedge) {
-      setTarget(targetWedge.label || "[Blank]");
+      setTarget(targetWedge.label || "[Empty]");
       let targetAngle =
         1081 +
         targetWedge.startAngle +
@@ -35,31 +20,36 @@ export function Spinner({ wedges, spin, handleResults }) {
       setSpinning(1);
     }
   };
-  const endAnimation = () => {
-    setAngle(endAngle % 360);
+  const endTransition = () => {
+    setEndAngle(endAngle % 360);
     setSpinning(0);
     handleResults(target);
   };
 
   return (
-    <div className="spinnerContainer">
-      <div className="pointer"></div>
-      <SpinnerContainer
-        className="spinner"
-        onAnimationEnd={endAnimation}
-        style={{
-          transform: `rotate(${angle}deg)`,
-        }}
-      >
-        <Wedges wedges={wedges} />
-      </SpinnerContainer>
-      <button
-        className="spinButton"
-        onClick={spinWheel}
-        disabled={spinning === 1}
-      >
-        SPIN!
-      </button>
-    </div>
+    <section className="spinnerSection">
+      <div className="spinnerContainer">
+        <div
+          className="spinner"
+          onTransitionEnd={endTransition}
+          spinning={spinning.toString()}
+          style={{
+            transform: `translate(-50%, -50%) rotate(${endAngle}deg)`,
+          }}
+        >
+          <Wedges wedges={wedges} />
+        </div>
+        <div className="shadow" />
+        <div className="buttonWrapper">
+          <button
+            className="spinButton"
+            onClick={spinWheel}
+            disabled={spinning === 1}
+          >
+            <p>SPIN!</p>
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -41,7 +41,7 @@ export function Wedge({ wedgeData }) {
       style={{
         position: "absolute",
         backgroundColor: wedgeData.color,
-        "clip-path": "path(" + pathString + ")",
+        clipPath: "path(" + pathString + ")",
 
         transform: "rotate(" + wedgeData.startAngle + "deg)",
       }}
