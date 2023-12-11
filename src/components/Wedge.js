@@ -2,9 +2,9 @@ import { useMemo } from "react";
 
 export function Wedge({ wedgeData }) {
   const getClipPath = () => {
-    const cX = 325;
-    const cY = 325;
-    const r = 325;
+    const cX = 300;
+    const cY = 300;
+    const r = 300;
 
     const angle = wedgeData.size * 3.6;
 
@@ -50,7 +50,7 @@ export function Wedge({ wedgeData }) {
       <div
         style={{
           fontSize: 8 + Math.sqrt(wedgeData.size) + "px",
-          lineHeight: "calc(620px + " + 360 / wedgeData.size + "%)",
+          lineHeight: "calc(570px + " + 360 / wedgeData.size + "%)",
           transform: "rotate(" + Math.round(50 * wedgeData.size) / 100 + "deg)",
         }}
         className="wedgeText"

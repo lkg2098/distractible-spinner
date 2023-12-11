@@ -11,8 +11,8 @@ export function Wedges({ wedges }) {
         style={{
           backgroundColor: wedges[0].color,
           borderRadius: "50%",
-          height: "650px",
-          width: "650px",
+          height: "600px",
+          width: "600px",
           transform: "rotate(-90deg)",
           textAlign: "center",
         }}

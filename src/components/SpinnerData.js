@@ -51,16 +51,6 @@ export function SpinnerData() {
     window.localStorage.setItem("probabilities", JSON.stringify(probabilities));
   }, [probabilities]);
 
-  function clearStorage() {
-    let session = sessionStorage.getItem("register");
-
-    if (session == null) {
-      localStorage.clear();
-    }
-    sessionStorage.setItem("register", 1);
-  }
-  window.addEventListener("load", clearStorage);
-
   const handleOptionData = (newLabel, index) => {
     let optionsCopy = { ...options };
     let oldLabel = wedges[index].label;
@@ -167,6 +157,26 @@ export function SpinnerData() {
     setOptions(newOptions);
   };
 
+  const clearWedges = () => {
+    setWedges([
+      {
+        label: "",
+        color: generateColor(),
+        startAngle: 0,
+        size: 180,
+      },
+      {
+        label: "",
+        color: generateColor(),
+        startAngle: 180,
+        size: 180,
+      },
+    ]);
+    setOptions({ "": [0, 1] });
+    setProbabilities({});
+    setResults([]);
+  };
+
   const selectWithWeights = () => {
     let roll;
 
@@ -209,6 +219,7 @@ export function SpinnerData() {
         addWedge={addWedge}
         handleChange={handleWedgeData}
         handleDelete={deleteWedge}
+        clearWedges={clearWedges}
         getProbability={calculatePropability}
         options={options}
         probabilities={probabilities}

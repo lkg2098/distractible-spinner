@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { IconContext } from "react-icons";
+import { FaTimes } from "react-icons/fa";
 import { Wedges } from "./Wedges";
+import trophy from "../media/trophy.png";
+import Confetti from "react-confetti";
 
 export function Spinner({ wedges, spin, handleResults }) {
   const [spinning, setSpinning] = useState(0);
   const [endAngle, setEndAngle] = useState(0);
   const [target, setTarget] = useState("");
+  const [modalOpen, setModalOpen] = useState(0);
 
   const spinWheel = () => {
     const targetWedge = spin();
@@ -22,10 +27,22 @@ export function Spinner({ wedges, spin, handleResults }) {
     setEndAngle(endAngle % 360);
     setSpinning(0);
     handleResults(target);
+    setModalOpen(1);
   };
 
   return (
     <section className="spinnerSection">
+      <div className="modal" check={modalOpen.toString()}>
+        <button className="iconButton" onClick={() => setModalOpen(0)}>
+          <IconContext.Provider value={{ size: "1.3em" }}>
+            <FaTimes />
+          </IconContext.Provider>
+        </button>
+        <img src={trophy} alt="Trophy" />
+        <p>And the winner is...</p>
+        <h1>{target}!</h1>
+      </div>
+      <Confetti className="confetti" />
       <div className="spinnerContainer">
         <div
           className="spinner"

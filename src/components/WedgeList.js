@@ -7,6 +7,7 @@ export function WedgeList({
   addWedge,
   handleDelete,
   handleChange,
+  clearWedges,
   results,
   handleResults,
   handleTutorial,
@@ -27,6 +28,7 @@ export function WedgeList({
           maxLength={20}
           name={"label"}
           placeholder="Type option here..."
+          autoComplete="off"
           onChange={(e) => handleChange(e, index)}
         />
         <div
@@ -82,6 +84,9 @@ export function WedgeList({
             onClick={wedges.length < 100 ? newWedge : handleWedgesFull}
           >
             Add Wedge
+          </button>
+          <button className="menuButton" onClick={clearWedges}>
+            Reset
           </button>
         </div>
       </>
