@@ -5,9 +5,8 @@ import { Wedges } from "./Wedges";
 import trophy from "../media/trophy.png";
 import Confetti from "react-confetti";
 
-export function Spinner({ wedges, spin, handleResults }) {
+export function Spinner({ wedges, spin, handleResults, angle, handleAngle }) {
   const [spinning, setSpinning] = useState(0);
-  const [endAngle, setEndAngle] = useState(0);
   const [target, setTarget] = useState("");
   const [modalOpen, setModalOpen] = useState(0);
 
@@ -19,12 +18,12 @@ export function Spinner({ wedges, spin, handleResults }) {
         1081 +
         targetWedge.startAngle +
         Math.ceil(Math.random() * (targetWedge.size - 1));
-      setEndAngle(-1 * targetAngle);
+      handleAngle(-1 * targetAngle);
       setSpinning(1);
     }
   };
   const endTransition = () => {
-    setEndAngle(endAngle % 360);
+    handleAngle(angle % 360);
     setSpinning(0);
     handleResults(target);
     setModalOpen(1);
@@ -49,7 +48,7 @@ export function Spinner({ wedges, spin, handleResults }) {
           onTransitionEnd={endTransition}
           spinning={spinning.toString()}
           style={{
-            transform: `translate(-50%, -50%) rotate(${endAngle}deg)`,
+            transform: `translate(-50%, -50%) rotate(${angle}deg)`,
           }}
         >
           <Wedges wedges={wedges} />

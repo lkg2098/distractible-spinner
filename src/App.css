@@ -36,10 +36,9 @@
   position: absolute;
   display: flex;
   align-items: center;
-  height: 3em;
+  height: 3.1em;
   width: 14%;
   margin: 0.2% 3.5%;
-
   overflow: hidden;
 }
 .shiftBox > h1 {
@@ -59,7 +58,7 @@ h1 > span {
 
 .header[shift="1"] .shiftDown {
   transition: transform 0.5s ease-out;
-  transform: translateY(1.3em);
+  transform: translateY(1.31em);
 }
 .header[shift="0"] .shiftDown {
   transition: transform 0.3s linear;
@@ -174,7 +173,7 @@ menu > li > button:disabled {
   top: 103%;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: space-evenly;
 }
@@ -414,7 +413,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .spinButton {
   margin: auto;
-  background-color: #444;
+  background-color: #eee;
+  color: #555;
   width: 100px;
   height: 110px;
   border: none;
@@ -425,23 +425,22 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .spinButton > p {
-  color: white;
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -57%);
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid white;
+  background-image: linear-gradient(to bottom right, #ccc, #fff);
+  border: 2px solid #aaa;
 }
 
 .spinButton:disabled > p {
-  color: #666;
-  border-color: #666;
+  color: #bbb;
 }
 
 .buttonWrapper {
@@ -472,14 +471,9 @@ input[type="number"]::-webkit-inner-spin-button {
   top: 55.5%;
   left: -3%;
   transform: translateY(-50%);
-  background-color: #333;
+  background-image: linear-gradient(#777, #ccc);
 }
 
-.pointer {
-  width: 10px;
-  height: 20px;
-  background-color: white;
-}
 .spinner {
   position: absolute;
   height: 600px;

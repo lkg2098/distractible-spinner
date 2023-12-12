@@ -11,14 +11,11 @@ export function SpinnerData() {
   );
   const [results, setResults] = useState([]);
   const generateColor = () => {
-    let letters = "0123456789ABCDEF";
+    let r = Math.floor(221 * Math.random());
+    let g = Math.floor(221 * Math.random());
+    let b = Math.floor(221 * Math.random());
 
-    let color = "#";
-
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    return `rgb(${r},${g},${b})`;
   };
   const [wedges, setWedges] = useState(() => {
     return (
@@ -38,6 +35,7 @@ export function SpinnerData() {
       ]
     );
   });
+  const [wheelAngle, setWheelAngle] = useState(0);
 
   useEffect(() => {
     window.localStorage.setItem("wedges", JSON.stringify(wedges));
@@ -175,6 +173,7 @@ export function SpinnerData() {
     setOptions({ "": [0, 1] });
     setProbabilities({});
     setResults([]);
+    setWheelAngle(0);
   };
 
   const selectWithWeights = () => {
@@ -205,6 +204,10 @@ export function SpinnerData() {
     }
   };
 
+  const handleAngle = (a) => {
+    setWheelAngle(a);
+  };
+
   return (
     <div
       style={{
@@ -231,6 +234,8 @@ export function SpinnerData() {
         wedges={wedges}
         spin={selectWithWeights}
         handleResults={handleResults}
+        angle={wheelAngle}
+        handleAngle={handleAngle}
       />
     </div>
   );

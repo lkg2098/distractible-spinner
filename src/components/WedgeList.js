@@ -86,7 +86,7 @@ export function WedgeList({
             Add Wedge
           </button>
           <button className="menuButton" onClick={clearWedges}>
-            Reset
+            Clear and Reset
           </button>
         </div>
       </>
