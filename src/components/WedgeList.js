@@ -27,7 +27,7 @@ export function WedgeList({
           size={30}
           maxLength={20}
           name={"label"}
-          placeholder="Type option here..."
+          placeholder={"Type option here..."}
           autoComplete="off"
           onChange={(e) => handleChange(e, index)}
         />
