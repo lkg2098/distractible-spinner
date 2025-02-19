@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { IconContext } from "react-icons";
+import { FaAnglesDown } from "react-icons/fa6";
 import { Header } from "./Header";
 import { ProbabilitiesList } from "./ProbabilitiesList";
 import { Tutorial } from "./Tutorial";
@@ -27,6 +29,8 @@ export function FlipMenu({
   const [weights, setWeights] = useState(
     JSON.parse(window.localStorage.getItem("weights")) || {}
   );
+
+  const [closed, setClosed] = useState(1);
 
   useEffect(() => {
     window.localStorage.setItem("flip", flip);
@@ -78,6 +82,14 @@ export function FlipMenu({
     if (value) setTutorial(value);
   };
 
+  const handleClosed = () => {
+    if (closed === 0) {
+      setClosed(1);
+    } else {
+      setClosed(0);
+    }
+  };
+
   const handleWeightChange = (key, value) => {
     const weightsCopy = { ...weights };
     if (value === 0) {
@@ -97,7 +109,7 @@ export function FlipMenu({
   return (
     <div>
       <Header flip={flip} handleTutorial={handleTutorial} />
-      <div className="sidebar">
+      <div className="sidebar" closed={closed}>
         <div className="flipCard" flip={flip}>
           <WedgeList
             wedges={wedges}
@@ -129,6 +141,11 @@ export function FlipMenu({
           </button>
         </div>
       </div>
+      <button className="menuButton" id="closeButton" onClick={handleClosed}>
+        <IconContext.Provider value={{ size: "1em", color: "plum" }}>
+          <FaAnglesDown />
+        </IconContext.Provider>
+      </button>
       <Tutorial active={tutorial} handleActive={handleTutorial} />
     </div>
   );

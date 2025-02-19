@@ -3,14 +3,6 @@
   font-family: Poppins;
 }
 
-.innerSpinner {
-  height: 600px;
-  width: 600px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: #333;
-}
-
 .App-header {
   background-image: linear-gradient(to bottom right, darkblue, indigo);
   height: 100vh;
@@ -28,24 +20,31 @@
   position: fixed;
   justify-content: space-between;
   width: 95.5vw;
-  height: 3em;
+  height: 8vh;
   background-color: rgba(0, 0, 50, 0.5);
 }
 
-.shiftBox {
-  position: absolute;
+.title {
   display: flex;
+  flex-direction: row;
   align-items: center;
+}
+.shiftBox {
+  position: relative;
   height: 3.3em;
-  width: 11.5em;
-  margin: 0.2% 3.5%;
+  overflow: hidden;
+  justify-self: right;
+  padding-left: 0.7em;
   overflow: hidden;
 }
-.shiftBox > h1 {
-  position: absolute;
+.title h1 {
+  position: relative;
   font-family: "Fugaz One";
-  font-size: 2.4em;
-  top: -0.77em;
+  margin: 0;
+  font-size: 2em;
+}
+.shiftBox h1 {
+  text-align: left;
 }
 
 .header button {
@@ -58,25 +57,26 @@ h1 > span {
 }
 
 .header[shift="1"] .shiftDown {
-  transition: transform 0.5s ease-out;
-  transform: translateY(1.31em);
+  transition: transform 0.8s ease-out 1s;
+  transform: translateY(0.2em);
 }
 .header[shift="0"] .shiftDown {
   transition: transform 0.3s linear;
+  transform: translateY(-1.36em);
 }
 
 .header[shift="1"] .shiftLeft {
-  transform: translateX(-0.66em);
-  transition: transform 0.4s ease-out 0.2s, color 0.4s ease-out 0.2s;
+  transition: transform 1s ease-out, color 1s ease-out;
   color: plum;
 }
 
 .header[shift="0"] .shiftLeft {
+  transform: translateX(-1.25em);
   transition: transform 0.3s linear;
 }
 
 #top {
-  top: -2.1em;
+  top: -0.1em;
   color: plum;
 }
 
@@ -109,13 +109,19 @@ h1 > span {
 }
 
 .sidebar {
-  position: relative;
-  top: 12%;
-  margin-left: 3vw;
-  width: 35vw;
-  height: 86vh;
+  position: absolute;
+  width: 100vw;
+  height: 92vh;
+  top: 8vh;
+  margin: 0;
+  z-index: 30;
+  transition: transform 0.5s ease-in;
   display: flex;
   flex-flow: column;
+}
+
+.sidebar[closed="0"] {
+  transform: translateY(100%);
 }
 
 menu {
@@ -189,11 +195,11 @@ menu > li > button:disabled {
 }
 
 .flipCard {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 40, 0.8);
   height: 100%;
   width: 100%;
   position: relative;
-  font-size: calc(3px + 1vw);
+  font-size: calc(8pt + 1vw);
   transform-style: preserve-3d;
   border-radius: 10px;
   transition: transform 1s;
@@ -222,6 +228,18 @@ menu > li > button:disabled {
   color: white;
   opacity: 100;
   backface-visibility: hidden;
+}
+
+#closeButton {
+  position: relative;
+  top: 90vh;
+  z-index: 30;
+  width: 70vw;
+  left: 15vw;
+}
+
+.sidebar[closed="0"] + #closeButton {
+  transform: rotate(180deg);
 }
 
 @keyframes flipMenu {
@@ -366,11 +384,6 @@ input[type="number"] {
   text-align: right;
 }
 
-/* input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  appearance: none;
-} */
-
 .iconButton {
   background: none;
   border: none;
@@ -458,26 +471,24 @@ input[type="number"]::-webkit-inner-spin-button {
   display: flex;
   flex-flow: column;
   align-items: center;
-  width: 65vw;
-  padding: 2vh;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
   overflow: hidden;
 }
 
 .spinnerContainer {
-  height: 650px;
-  width: 650px;
   border-radius: 50%;
   display: flex;
   position: relative;
-  top: 55.5%;
-  left: -3%;
+  top: 50%;
   transform: translateY(-50%);
   background-image: linear-gradient(#777, #ccc);
 }
 
 .spinner {
   position: absolute;
-  height: 600px;
   top: 50%;
   left: 50%;
   z-index: 1;
@@ -487,9 +498,13 @@ input[type="number"]::-webkit-inner-spin-button {
   transition: transform 5s ease-out;
 }
 
+.innerSpinner {
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #333;
+}
+
 .shadow {
-  width: 550px;
-  height: 550px;
   border-radius: 50%;
   position: absolute;
   background-color: #222;
@@ -498,14 +513,11 @@ input[type="number"]::-webkit-inner-spin-button {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 0;
-  filter: drop-shadow(rgba(0, 0, 0, 0.5) 30px 30px 10px);
 }
 
 .wedges {
   display: inline-block;
   transform: rotate(90deg);
-  height: 600px;
-  width: 600px;
 }
 
 .wedgeText {
@@ -557,7 +569,7 @@ input[type="number"]::-webkit-inner-spin-button {
   color: black;
   top: 50%;
   left: 50%;
-  width: 45%;
+  /* width: 45%; */
   padding: 2% 2% 4% 2%;
   transform: translate(-50%, -50%) scale(0%);
   border-radius: 5px;
@@ -601,4 +613,174 @@ img {
 
 .modal[check="0"] + .confetti {
   display: none;
+}
+
+@media screen and (max-width: 449px) {
+  .sidebar[closed="0"] {
+    transform: translateY(100%);
+  }
+
+  .flipCard {
+    font-size: 12pt;
+  }
+
+  .spinnerSection {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .spinnerContainer {
+    height: 379px;
+    width: 379px;
+  }
+  .spinner {
+    height: 350px;
+  }
+  .innerSpinner {
+    height: 350px;
+    width: 350px;
+  }
+  .shadow {
+    width: 321px;
+    height: 321px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.5) 13px 13px 6px);
+  }
+  .wedges {
+    height: 350px;
+    width: 350px;
+  }
+  .modal {
+    width: 70%;
+    height: 70%;
+  }
+  .modal h1 {
+    font-size: 3em;
+  }
+  img {
+  }
+}
+@media screen and (min-width: 450px) {
+  .spinnerContainer {
+    height: 433px;
+    width: 433px;
+  }
+  .spinner {
+    height: 400px;
+  }
+  .innerSpinner {
+    height: 400px;
+    width: 400px;
+  }
+  .shadow {
+    width: 366px;
+    height: 366px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.5) 20px 20px 7px);
+  }
+  .wedges {
+    height: 400px;
+    width: 400px;
+  }
+  .modal {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 35vw;
+    height: 86vh;
+    top: 12%;
+    margin-left: 3vw;
+    z-index: 30;
+  }
+
+  .flipCard {
+    font-size: 12pt;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  #closeButton {
+    display: none;
+  }
+
+  .spinnerSection {
+    position: relative;
+    width: 65vw;
+    height: 88vh;
+    top: 12vh;
+  }
+
+  .spinnerContainer {
+    top: 50%;
+    height: 542px;
+    width: 542px;
+  }
+
+  .spinner {
+    height: 500px;
+  }
+  .innerSpinner {
+    height: 500px;
+    width: 500px;
+  }
+  .shadow {
+    width: 459px;
+    height: 459px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.5) 25px 25px 8px);
+  }
+  .wedges {
+    height: 500px;
+    width: 500px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .sidebar {
+    position: relative;
+    width: 35vw;
+    height: 86vh;
+    top: 12%;
+    margin-left: 3vw;
+    z-index: 30;
+  }
+
+  .flipCard {
+    font-size: 12pt;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  #closeButton {
+    display: none;
+  }
+
+  .spinnerSection {
+    position: relative;
+    width: 65vw;
+    height: 88vh;
+    top: 12vh;
+  }
+
+  .spinnerContainer {
+    top: 50%;
+    height: 600px;
+    width: 600px;
+  }
+  .spinner {
+    height: 550px;
+  }
+  .innerSpinner {
+    height: 550px;
+    width: 550px;
+  }
+  .shadow {
+    width: 500px;
+    height: 500px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.5) 30px 30px 10px);
+  }
+  .wedges {
+    height: 550px;
+    width: 550px;
+  }
 }
