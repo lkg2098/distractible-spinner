@@ -657,8 +657,6 @@ img {
   .modal h1 {
     font-size: 3em;
   }
-  img {
-  }
 }
 @media screen and (min-width: 450px) {
   .spinnerContainer {
