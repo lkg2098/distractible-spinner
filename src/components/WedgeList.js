@@ -25,7 +25,7 @@ export function WedgeList({
           type={"text"}
           value={wedge.label}
           size={30}
-          maxLength={20}
+          maxLength={30}
           name={"label"}
           placeholder={"Type option here..."}
           autoComplete="off"
